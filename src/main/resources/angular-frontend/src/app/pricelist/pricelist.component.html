@@ -1,0 +1,64 @@
+<div class="section-head">
+    <div class="nav-header">
+        <nav class="navbar navbar-dark bg-dark">
+            <h2>Technical assessment</h2>
+        </nav>
+    </div>
+
+    <div class="inside-content">
+        <div class="title-header">
+            <h3>Price List</h3>
+            <button type="button" class="btn btn-dark" data-toggle="modal" (click)="openLg(content)">Price Calculator</button>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Products</th>
+                <th scope="col">Units</th>
+                <th scope="col">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of pricelist; let i = index">
+                <td style="width: 16.66%">{{product.productName}}</td>
+                <td><ngx-slider [(value)]="value[i]" [options]="options"></ngx-slider></td>
+                <td style="width: 16.66%">
+                    ${{product.price[value[i]-1]  | number : '1.2-2'}} 
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title">Total: ${{total | number : '1.2-2'}}</h4>
+              <button type="button" class="close" aria-label="Close" (click)="removeAllTasks();modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+                <select name="prod" id="prod" #prod style="width: 200px;">
+                    <option value="Penguin-ears">Penguin-ears</option>
+                    <option value="Horseshoe">Horseshoe</option>
+                </select>
+                <select name="unitType" id="unitType" #unitType style="width: 200px;">
+                    <option value="Units">Units</option>
+                    <option value="Cartons">Cartons</option>
+                </select>
+                <input type="text" placeholder="Quantity" #count>
+                <button type="button" (click)="addTask(prod.value,unitType.value,count.value)" class="btn btn-dark">Add</button>
+            </div>
+
+            <ul *ngFor="let item of itemList">
+                <li> {{item.count}} {{item.type}} of {{item.name}} &nbsp;&nbsp; <button type="button" class="btn btn-outline-dark" (click)="removeTask(item.id)">Remove</button></li>
+            </ul>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" (click)="calculateThePrice()">Calculate</button>
+            </div>
+        </ng-template>
+    </div>
+</div>
+
